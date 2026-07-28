@@ -1003,7 +1003,16 @@ function load(){
 if(location.hash.startsWith('#carry=')){
   try{
     const json = decodeURIComponent(escape(atob(location.hash.slice(7))));
-    if(json && !localStorage.getItem(KEY)) localStorage.setItem(KEY, json);
+    if(json){
+      /* import over anything that holds no real work; ask before clobbering real work */
+      let cur = null; try{ cur = JSON.parse(localStorage.getItem(KEY)); }catch(e){}
+      const blank = !cur || (
+        Object.values(cur.days || {}).every(l => !l || !l.length) &&
+        !(cur.reflections || []).some(r =>
+          ['did','alive','chore','learned','clearer'].some(k => (r[k]||'').trim())) );
+      if(blank || confirm('Load the deck from this link? It replaces what is on this device.'))
+        localStorage.setItem(KEY, json);
+    }
   }catch(e){}
   history.replaceState(null, '', location.pathname);
 }
