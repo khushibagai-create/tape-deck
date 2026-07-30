@@ -112,7 +112,7 @@
 
   /* ---- walnut deck body ---- */
   .machine{
-    flex:0 1 600px;min-width:min(94vw,470px);
+    flex:0 1 680px;min-width:min(94vw,500px);
     border-radius:22px;
     padding:20px 20px 12px;
     background:
@@ -128,7 +128,7 @@
 
   /* the glass door the cassette sits behind */
   .well{
-    position:relative;height:330px;border-radius:13px;overflow:hidden;
+    position:relative;height:378px;border-radius:13px;overflow:hidden;
     background:linear-gradient(180deg,#141009,#1d1712);
     box-shadow:
       inset 0 3px 12px rgba(0,0,0,.75),
@@ -201,7 +201,7 @@
   }
   .f-title{
     font-family:var(--serif);font-style:italic;font-weight:400;
-    font-size:clamp(26px,3.4vw,34px);line-height:1.05;color:var(--deep);
+    font-size:clamp(28px,3.6vw,40px);line-height:1.05;color:var(--deep);
     letter-spacing:.01em;
   }
   .f-sub{
@@ -226,7 +226,7 @@
 
   /* the tape window: two hubs, wound tape, a run of tape between */
   .f-window{
-    position:absolute;left:16%;right:16%;top:57%;height:88px;
+    position:absolute;left:15%;right:15%;top:57%;height:100px;
     border-radius:44px;
     background:linear-gradient(180deg,rgba(22,16,10,.62),rgba(22,16,10,.5));
     box-shadow:
@@ -237,15 +237,15 @@
     padding:0 13px;
   }
   .f-line{
-    position:absolute;left:56px;right:56px;top:50%;height:4px;margin-top:-2px;
+    position:absolute;left:64px;right:64px;top:50%;height:4px;margin-top:-2px;
     background:linear-gradient(180deg,#7a664f,#3b2f24);
     opacity:.6;border-radius:2px;
   }
 
-  .reel{position:relative;width:64px;height:64px;flex:0 0 auto;display:grid;place-items:center;z-index:1}
+  .reel{position:relative;width:74px;height:74px;flex:0 0 auto;display:grid;place-items:center;z-index:1}
   .reel-tape{
-    width:calc(26px + var(--pct,0) * 34px);
-    height:calc(26px + var(--pct,0) * 34px);
+    width:calc(30px + var(--pct,0) * 40px);
+    height:calc(30px + var(--pct,0) * 40px);
     border-radius:50%;
     background:
       repeating-radial-gradient(circle,rgba(255,255,255,.08) 0 1px,transparent 1px 3px),
@@ -254,11 +254,11 @@
     transition:width .62s cubic-bezier(.3,.9,.35,1),height .62s cubic-bezier(.3,.9,.35,1);
   }
   .reel.r2 .reel-tape{
-    width:calc(60px - var(--pct,0) * 34px);
-    height:calc(60px - var(--pct,0) * 34px);
+    width:calc(70px - var(--pct,0) * 40px);
+    height:calc(70px - var(--pct,0) * 40px);
   }
   .reel-hub{
-    position:absolute;width:24px;height:24px;border-radius:50%;
+    position:absolute;width:28px;height:28px;border-radius:50%;
     background:radial-gradient(circle,#fffdf7,#ded5c3);
     box-shadow:0 0 0 1.5px rgba(0,0,0,.35);
   }
@@ -307,8 +307,8 @@
 
   /* ---- the J-card: the paper that comes with the cassette ---- */
   .jcards{
-    flex:1 1 400px;max-width:470px;min-width:min(94vw,340px);
-    position:relative;min-height:470px;
+    flex:1 1 470px;max-width:570px;min-width:min(94vw,360px);
+    position:relative;min-height:560px;
     opacity:0;animation:rise 1s .62s cubic-bezier(.2,.8,.2,1) forwards;
   }
   .jcard{
@@ -322,7 +322,7 @@
       inset 0 0 0 1px rgba(120,104,84,.18),
       0 20px 40px -18px rgba(60,48,36,.4);
     transform:rotate(.4deg);
-    padding:24px 26px 18px;
+    padding:28px 32px 22px;
     opacity:0;visibility:hidden;pointer-events:none;
     transition:opacity .28s linear,visibility 0s .28s;
   }
@@ -343,7 +343,7 @@
   }
   .j-title{
     font-family:var(--serif);font-style:italic;font-weight:400;
-    font-size:27px;line-height:1.05;color:var(--ink);
+    font-size:31px;line-height:1.05;color:var(--ink);
   }
   .j-mood{
     margin-top:5px;
@@ -351,7 +351,7 @@
   }
   .j-meta{text-align:right;flex:0 0 auto}
   .j-count{
-    display:block;font-family:var(--mono);font-size:17px;letter-spacing:.08em;color:var(--ink);
+    display:block;font-family:var(--mono);font-size:19px;letter-spacing:.08em;color:var(--ink);
   }
   .j-budget{
     font-family:var(--mono);font-style:normal;font-size:8.5px;
@@ -474,8 +474,8 @@
   .notes::-webkit-scrollbar-thumb{background:rgba(0,0,0,.16);border-radius:4px}
 
   .task{
-    display:flex;gap:9px;align-items:flex-start;
-    padding:6px 2px;position:relative;
+    display:flex;gap:11px;align-items:flex-start;
+    padding:9px 2px;position:relative;
     animation:noteIn .4s cubic-bezier(.2,.8,.2,1) backwards;
   }
   .task.now{animation-delay:0s}
@@ -490,7 +490,7 @@
 
   .box{
     position:relative;
-    flex:0 0 auto;width:19px;height:19px;margin-top:3px;
+    flex:0 0 auto;width:21px;height:21px;margin-top:3px;
     border:1px solid var(--deep);border-radius:2px;
     background:rgba(255,255,255,.42);cursor:pointer;
     display:grid;place-items:center;
@@ -501,13 +501,28 @@
   .box::after{content:'';position:absolute;inset:-10px;border-radius:6px}
   .box:hover{background:rgba(255,255,255,.9);box-shadow:0 0 0 3px rgba(255,255,255,.4)}
   .box:active{background:rgba(255,255,255,1)}
-  .box svg{width:15px;height:15px;color:var(--deep);
+  .box svg{width:17px;height:17px;color:var(--deep);
     stroke-dasharray:22;stroke-dashoffset:22;transition:stroke-dashoffset .34s cubic-bezier(.5,0,.3,1)}
   .task.done .box svg{stroke-dashoffset:0}
 
+  .task-body{flex:1 1 auto;min-width:0}
+  .task-note{
+    margin-top:2px;
+    font-family:var(--sans);font-weight:300;font-size:12.5px;line-height:1.45;
+    color:var(--ink-faint);letter-spacing:.01em;
+    transition:opacity .3s ease;
+  }
+  .task-note[hidden]{display:none}
+  .task.done .task-note{opacity:.5}
+  .mins{
+    flex:0 0 auto;margin-top:6px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+    color:var(--ink-soft);opacity:.75;white-space:nowrap;
+  }
+  .task.done .mins{opacity:.35}
   .task-txt{
-    font-family:var(--sans);font-size:16.5px;line-height:1.5;
-    color:var(--ink);letter-spacing:.005em;flex:1 1 auto;
+    font-family:var(--sans);font-size:17.5px;line-height:1.4;
+    color:var(--ink);letter-spacing:.005em;
     word-break:break-word;cursor:text;
     transition:color .3s ease,opacity .3s ease;
   }
@@ -920,8 +935,12 @@ const SESSION_SECS = 120 * 60;          /* one cassette = one 2-hour evening */
 /* ---------------- the weekly program ----
    Keyed by week-start Monday: 5 tapes of [title, [[task, minutes], ...]].
    This public shell ships empty; a #carry= link loads a personal program. */
-const PROGRAM_V = 3;
+const PROGRAM_V = 4;
 const PROGRAM = {};
+
+
+/* Side B: the standing backlog. Seeded once; never reseeded over her edits. */
+const PROGRAM_B = {};
 
 
 function thisMonday(){
@@ -956,6 +975,15 @@ function load(){
   if(!s.session) s.session = null;
   if(s.session) s.session.running = false;   /* never auto-resume a timer across loads */
 
+  /* one-time Side B fill, only into empty tapes */
+  if(!s.seededB && Object.keys(PROGRAM_B).length){
+    Object.keys(PROGRAM_B).forEach(k => {
+      if(s.days[k] && !s.days[k].length)
+        s.days[k] = PROGRAM_B[k].map(([text,min,note],i) => ({ id:k.slice(0,3)+'s'+i, text, min, note, done:false }));
+    });
+    s.seededB = true;
+  }
+
   const mon = thisMonday();
   const newWeek = s.weekStart !== mon;
 
@@ -984,7 +1012,7 @@ function load(){
       const tape = prog ? prog[i] : null;
       s.titles[d.key] = tape ? tape[0] : d.name;
       s.days[d.key] = tape
-        ? tape[1].map(([text,min],j) => ({ id:d.key+'p'+j, text, min, done:!newWeek && wasDone.has(text) }))
+        ? tape[1].map(([text,min,note],j) => ({ id:d.key+'p'+j, text, min, note, done:!newWeek && wasDone.has(text) }))
         : [];
     });
     SIDES.A.forEach(d => {
@@ -1268,7 +1296,7 @@ function bindTape(day){
     if(to === key) return;
     const t = (state.days[key] || []).find(x => x.id === row.dataset.id);
     if(!t) return;
-    state.days[to].push({ id: to + Date.now(), text: t.text, min: t.min, done:false });
+    state.days[to].push({ id: to + Date.now(), text: t.text, min: t.min, note: t.note, done:false });
     state.days[key] = state.days[key].filter(x => x.id !== t.id);
     save(); syncTape(key); syncTape(to); stats();
   });
@@ -1396,7 +1424,10 @@ function makeTask(t, side, delay){
   if(delay) row.style.animationDelay = delay.toFixed(3) + 's';
   row.innerHTML =
     `<div class="box" role="checkbox" tabindex="0" aria-checked="false">${TICK}</div>
-     <div class="task-txt" contenteditable="plaintext-only" spellcheck="false"></div>
+     <div class="task-body">
+       <div class="task-txt" contenteditable="plaintext-only" spellcheck="false"></div>
+       <div class="task-note" hidden></div>
+     </div>
      ${t.min ? `<span class="mins">${fmt(t.min)}</span>` : ''}
      <select class="send" aria-label="Move to another tape">
         <option value="">&rarr;</option>
@@ -1413,6 +1444,11 @@ function patchTask(row, t){
   row.querySelector('.box').setAttribute('aria-checked', t.done ? 'true' : 'false');
   const txt = row.querySelector('.task-txt');
   if(txt !== document.activeElement && txt.textContent !== t.text) txt.textContent = t.text;
+  const note = row.querySelector('.task-note');
+  if(note){
+    note.hidden = !t.note;
+    if(t.note && note.textContent !== t.note) note.textContent = t.note;
+  }
 }
 
 function leave(row){
