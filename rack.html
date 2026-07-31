@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Outreach Rack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f0eae0;
+    --paper-2:#e7dfd2;
+    --ink:#2b2723;
+    --ink-soft:#6d655c;
+    --ink-faint:#a49a8e;
+    --rule:#cfc5b5;
+    --stamp:#a8412f;
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --mono:'Courier Prime',ui-monospace,monospace;
+    --sans:'Jost',-apple-system,sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:300;
+    min-height:100vh;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,.75), transparent 60%),
+      radial-gradient(90% 60% at 12% 110%, rgba(196,182,160,.32), transparent 65%),
+      radial-gradient(90% 60% at 88% 105%, rgba(180,170,190,.22), transparent 65%);
+  }
+
+  body::after{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:99;
+    opacity:.34;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
+
+  .stage{max-width:1080px;margin:0 auto;padding:clamp(22px,3vw,40px) 22px 120px;position:relative;z-index:1}
+
+  /* ---------- masthead ---------- */
+  .masthead{text-align:center;margin-bottom:clamp(20px,3vw,38px)}
+
+  .kicker{
+    font-family:var(--mono);font-size:10px;letter-spacing:.42em;text-transform:uppercase;
+    color:var(--ink-faint);display:flex;align-items:center;gap:14px;justify-content:center;
+    margin-bottom:11px;
+    opacity:0;animation:rise .9s .1s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .kicker::before,.kicker::after{content:'';height:1px;width:46px;background:var(--rule)}
+
+  h1{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(28px,4.2vw,46px);
+    letter-spacing:.11em;text-transform:uppercase;
+    margin:0;line-height:1.1;color:var(--ink);
+  }
+  h1 span{display:inline-block;opacity:0;animation:rise 1s cubic-bezier(.2,.8,.2,1) forwards}
+  h1 span:nth-child(1){animation-delay:.18s}
+  h1 span:nth-child(2){animation-delay:.30s}
+  h1 span:nth-child(3){animation-delay:.42s}
+  h1 em{font-style:normal;color:var(--ink-faint);margin:0 .06em}
+
+  .dek{
+    font-family:var(--serif);font-style:italic;font-size:clamp(13px,1.7vw,15.5px);
+    color:var(--ink-soft);margin:10px 0 0;letter-spacing:.02em;
+    opacity:0;animation:rise 1s .56s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  /* ---------- toolbar ---------- */
+  .toolbar{
+    display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;
+    margin-bottom:clamp(20px,3vw,32px);
+    opacity:0;animation:rise 1s .66s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .filters{
+    display:inline-flex;border:1px solid var(--rule);border-radius:2px;
+    overflow:hidden;background:rgba(255,255,255,.32);
+  }
+  .filter-btn{
+    border:0;background:none;cursor:pointer;
+    font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-faint);padding:10px 15px;
+    transition:background .3s ease,color .3s ease;
+  }
+  .filter-btn+.filter-btn{border-left:1px solid var(--rule)}
+  .filter-btn:hover{color:var(--ink-soft)}
+  .filter-btn.on{background:var(--ink);color:var(--paper)}
+
+  .tool-btn{
+    border:1px solid var(--rule);border-radius:2px;background:rgba(255,255,255,.32);
+    cursor:pointer;font-family:var(--mono);font-size:9px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--ink-soft);padding:10px 16px;
+    transition:background .3s ease,color .3s ease,border-color .3s;
+  }
+  .tool-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .tool-btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .tool-btn.primary:hover{background:#443c34}
+
+  /* ---------- the rack ---------- */
+  .rack{display:flex;flex-direction:column;gap:22px}
+
+  .slot{
+    position:relative;
+    border-radius:12px;
+    padding:14px 14px 12px;
+    background:
+      repeating-linear-gradient(94deg,rgba(255,255,255,.022) 0 2px,transparent 2px 5px),
+      linear-gradient(172deg,#413830,#2b241e 55%,#221c17);
+    box-shadow:
+      inset 0 1.5px 0 rgba(255,235,200,.16),
+      inset 0 -2px 6px rgba(0,0,0,.5),
+      0 22px 40px -20px rgba(43,36,28,.6),
+      0 4px 10px -5px rgba(43,36,28,.35);
+    opacity:0;animation:rise .7s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+
+  /* the paper label */
+  .label{
+    position:relative;border-radius:8px;overflow:hidden;
+    background:
+      repeating-linear-gradient(180deg,transparent 0 30px,rgba(120,104,84,.12) 30px 31px),
+      linear-gradient(178deg,#f7f2e6,#efe7d6);
+    box-shadow:inset 0 0 0 1px rgba(120,104,84,.22), 0 1px 3px rgba(0,0,0,.18);
+    padding:20px 24px 18px;
+  }
+  .label::before{
+    content:'';position:absolute;left:0;right:0;top:0;height:5px;
+    background:var(--hue,#b9a5c9);opacity:.85;
+  }
+
+  .head-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding-right:120px}
+  .co-name{
+    font-family:var(--serif);font-style:italic;font-weight:400;
+    font-size:clamp(24px,3vw,32px);line-height:1.05;color:var(--ink);
+    letter-spacing:.01em;margin:0;
+  }
+  .role-name{
+    font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .entry-date{
+    font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--ink-faint);
+    margin-left:auto;
+  }
+
+  /* rubber stamp status */
+  .stamp{
+    position:absolute;top:18px;right:20px;z-index:4;
+    transform:rotate(-6deg);
+    font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--stamp);border:2px solid var(--stamp);border-radius:3px;
+    padding:5px 11px;background:rgba(247,242,230,.6);opacity:.85;
+    cursor:pointer;user-select:none;white-space:nowrap;
+    transition:transform .25s cubic-bezier(.2,1.5,.4,1);
+  }
+  .stamp:hover{transform:rotate(-6deg) scale(1.06)}
+  .stamp.s-drafted{color:var(--ink-faint);border-color:var(--ink-faint)}
+  .stamp.s-sent{color:#8a6d3b;border-color:#8a6d3b}
+  .stamp.s-replied{color:#4a6b4f;border-color:#4a6b4f}
+  .stamp.s-interview{color:#3f5a78;border-color:#3f5a78}
+  .stamp.s-closed{color:var(--stamp);border-color:var(--stamp)}
+
+  /* links line */
+  .links-row{
+    display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  }
+  .links-row a{
+    color:var(--ink-soft);text-decoration:none;text-transform:uppercase;
+    border-bottom:1px solid var(--rule);padding-bottom:1px;
+    transition:color .25s,border-color .25s;
+  }
+  .links-row a:hover{color:var(--ink);border-color:var(--ink)}
+  .links-row a::before{content:'→ ';color:var(--ink-faint)}
+
+  /* dm text block */
+  .dm-block{
+    margin-top:14px;position:relative;
+    background:rgba(255,255,255,.45);
+    border:1px solid rgba(120,104,84,.2);border-radius:5px;
+    padding:14px 16px 12px;
+  }
+  .dm-head{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    margin-bottom:8px;
+  }
+  .dm-tag{
+    font-family:var(--mono);font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .copy-btn{
+    border:1px solid var(--rule);border-radius:2px;background:none;cursor:pointer;
+    font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-soft);padding:5px 11px;
+    transition:background .25s,color .25s;
+  }
+  .copy-btn:hover{background:var(--ink);color:var(--paper)}
+  .copy-btn.copied{background:#4a6b4f;color:var(--paper);border-color:#4a6b4f}
+  .dm-text{
+    font-family:var(--serif);font-size:15.5px;line-height:1.5;color:var(--ink);
+    white-space:pre-wrap;word-break:break-word;margin:0;
+  }
+  .dm-count{
+    margin-top:8px;font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ink-faint);text-align:right;
+  }
+
+  .notes{
+    margin-top:12px;font-family:var(--sans);font-size:13px;line-height:1.55;
+    color:var(--ink-soft);white-space:pre-wrap;
+  }
+  .notes::before{
+    content:'notes';display:block;font-family:var(--mono);font-size:8.5px;
+    letter-spacing:.3em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;
+  }
+
+  .card-actions{
+    display:flex;gap:14px;justify-content:flex-end;margin-top:14px;
+    padding-top:10px;border-top:1px solid rgba(120,104,84,.16);
+  }
+  .link-btn{
+    border:0;background:none;cursor:pointer;
+    font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--ink-faint);padding:2px 0;
+    transition:color .25s;
+  }
+  .link-btn:hover{color:var(--ink)}
+  .link-btn.danger:hover{color:var(--stamp)}
+
+  .empty-rack{
+    text-align:center;padding:70px 20px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+
+  /* ---------- the sheet (table view) ---------- */
+  .sheet-wrap{
+    overflow-x:auto;border-radius:8px;
+    background:
+      repeating-linear-gradient(180deg,transparent 0 42px,rgba(120,104,84,.12) 42px 43px),
+      linear-gradient(178deg,#f7f2e6,#efe7d6);
+    box-shadow:inset 0 0 0 1px rgba(120,104,84,.22), 0 14px 30px -18px rgba(43,36,28,.5);
+    opacity:0;animation:rise .7s .2s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  table.sheet{
+    width:100%;border-collapse:collapse;min-width:860px;
+  }
+  .sheet th{
+    font-family:var(--mono);font-size:8.5px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--ink-faint);font-weight:400;text-align:left;
+    padding:14px 16px 10px;border-bottom:1.5px solid rgba(120,104,84,.35);
+    white-space:nowrap;
+  }
+  .sheet td{
+    padding:12px 16px;border-bottom:1px solid rgba(120,104,84,.16);
+    vertical-align:top;font-size:13.5px;
+  }
+  .sheet tr:last-child td{border-bottom:0}
+  .sheet tbody tr{transition:background .2s}
+  .sheet tbody tr:hover{background:rgba(255,255,255,.4)}
+
+  .t-co{
+    font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink);
+    white-space:nowrap;
+  }
+  .t-co i{
+    display:inline-block;width:8px;height:8px;border-radius:50%;
+    background:var(--hue,#b9a5c9);margin-right:8px;vertical-align:1px;
+  }
+  .t-role{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);max-width:170px}
+  .t-link a{
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--rule);
+    white-space:nowrap;
+  }
+  .t-link a:hover{color:var(--ink);border-color:var(--ink)}
+  .t-dm{max-width:300px}
+  .t-dm .snip{
+    font-family:var(--serif);font-size:13.5px;line-height:1.45;color:var(--ink);
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .t-dm .meta{display:flex;align-items:center;gap:10px;margin-top:5px}
+  .t-dm .cnt{font-family:var(--mono);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+  .t-dm .cnt.over{color:var(--stamp)}
+  .t-stamp{
+    display:inline-block;transform:rotate(-3deg);cursor:pointer;user-select:none;
+    font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+    border:1.5px solid currentColor;border-radius:3px;padding:3px 8px;
+    background:rgba(247,242,230,.6);white-space:nowrap;
+    transition:transform .25s cubic-bezier(.2,1.5,.4,1);
+  }
+  .t-stamp:hover{transform:rotate(-3deg) scale(1.08)}
+  .t-stamp.s-drafted{color:var(--ink-faint)}
+  .t-stamp.s-sent{color:#8a6d3b}
+  .t-stamp.s-replied{color:#4a6b4f}
+  .t-stamp.s-interview{color:#3f5a78}
+  .t-stamp.s-closed{color:var(--stamp)}
+  .t-date{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--ink-faint);white-space:nowrap}
+  .t-actions{white-space:nowrap;text-align:right}
+  .t-actions .link-btn{margin-left:10px}
+
+  /* ---------- the editor (add / edit form) ---------- */
+  .editor-wrap{
+    max-width:720px;margin:0 auto clamp(24px,3vw,36px);
+    display:none;
+  }
+  .editor-wrap.open{display:block;animation:rise .5s cubic-bezier(.2,.8,.2,1)}
+  .editor{
+    background:
+      repeating-linear-gradient(180deg,transparent 0 30px,rgba(120,104,84,.1) 30px 31px),
+      linear-gradient(178deg,#f9f4e9,#f0e8d8);
+    border:1px solid rgba(120,104,84,.28);border-radius:8px;
+    padding:24px 26px;
+    box-shadow:0 14px 30px -16px rgba(43,36,28,.4);
+  }
+  .editor h2{
+    font-family:var(--serif);font-style:italic;font-weight:400;
+    font-size:22px;margin:0 0 18px;color:var(--ink);
+  }
+  .field{margin-bottom:14px}
+  .field label{
+    display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px;
+  }
+  .field input,.field textarea,.field select{
+    width:100%;border:1px solid var(--rule);border-radius:3px;
+    background:rgba(255,255,255,.6);
+    font-family:var(--sans);font-weight:300;font-size:14px;color:var(--ink);
+    padding:9px 12px;outline:none;
+    transition:border-color .25s,background .25s;
+  }
+  .field textarea{font-family:var(--serif);font-size:15px;line-height:1.5;min-height:110px;resize:vertical}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--ink-soft);background:#fff}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .char-live{
+    font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-faint);text-align:right;margin-top:4px;
+  }
+  .char-live.over{color:var(--stamp)}
+  .editor-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:20px}
+
+  @media(max-width:640px){
+    .field-row{grid-template-columns:1fr}
+    .head-row{padding-right:0;padding-top:34px}
+    .stamp{top:12px;right:14px}
+    .label{padding:16px 16px 14px}
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <header class="masthead">
+    <div class="kicker">private shelf · data lives only in this browser</div>
+    <h1><span>The</span> <em><span>Outreach</span></em> <span>Rack</span></h1>
+    <p class="dek">every pitch on its own shelf — company, role, the page, the words that went out</p>
+  </header>
+
+  <div class="toolbar">
+    <button class="tool-btn primary" id="addBtn">+ New Pitch</button>
+    <div class="filters" id="views">
+      <button class="filter-btn" data-v="rack">Rack</button>
+      <button class="filter-btn on" data-v="sheet">Sheet</button>
+    </div>
+    <div class="filters" id="filters">
+      <button class="filter-btn on" data-f="all">All</button>
+      <button class="filter-btn" data-f="drafted">Drafted</button>
+      <button class="filter-btn" data-f="sent">Sent</button>
+      <button class="filter-btn" data-f="replied">Replied</button>
+      <button class="filter-btn" data-f="interview">Interview</button>
+      <button class="filter-btn" data-f="closed">Closed</button>
+    </div>
+    <button class="tool-btn" id="exportBtn">Export</button>
+    <button class="tool-btn" id="importBtn">Import</button>
+    <input type="file" id="importFile" accept=".json" hidden>
+  </div>
+
+  <div class="editor-wrap" id="editorWrap">
+    <form class="editor" id="editor">
+      <h2 id="editorTitle">New pitch</h2>
+      <div class="field-row">
+        <div class="field">
+          <label for="fCompany">Company</label>
+          <input id="fCompany" required autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="fRole">Role</label>
+          <input id="fRole" autocomplete="off" placeholder="Senior PM, ...">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="fJd">JD link</label>
+          <input id="fJd" type="url" autocomplete="off" placeholder="https://">
+        </div>
+        <div class="field">
+          <label for="fResume">Resume page link</label>
+          <input id="fResume" type="url" autocomplete="off" placeholder="https://">
+        </div>
+      </div>
+      <div class="field">
+        <label for="fDm">DM text</label>
+        <textarea id="fDm" placeholder="The message that goes out..."></textarea>
+        <div class="char-live" id="charLive">0 chars</div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="fStatus">Status</label>
+          <select id="fStatus">
+            <option value="drafted">Drafted</option>
+            <option value="sent">Sent</option>
+            <option value="replied">Replied</option>
+            <option value="interview">Interview</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fHue">Shelf colour</label>
+          <select id="fHue">
+            <option value="#e8909e">Rose</option>
+            <option value="#b9a5c9">Lavender</option>
+            <option value="#9dbfae">Sage</option>
+            <option value="#d9b380">Amber</option>
+            <option value="#95aec4">Slate blue</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="fNotes">Notes</label>
+        <textarea id="fNotes" style="min-height:70px" placeholder="people messaged, sequencing, replies..."></textarea>
+      </div>
+      <div class="editor-actions">
+        <button type="button" class="tool-btn" id="cancelBtn">Cancel</button>
+        <button type="submit" class="tool-btn primary">Save to Rack</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="rack" id="rack"></div>
+  <div class="sheet-wrap" id="sheetWrap" hidden></div>
+</div>
+
+<script>
+(function(){
+  const KEY = 'khushi-outreach-rack-v1';
+  const STATUS_LABEL = {drafted:'Drafted', sent:'Sent', replied:'Replied', interview:'Interview', closed:'Closed'};
+  const STATUS_ORDER = ['drafted','sent','replied','interview','closed'];
+
+  const SEED = [];
+
+  let entries = load();
+  let filter = 'all';
+  let editingId = null;
+  let view = localStorage.getItem(KEY + ':view') || 'sheet';
+
+  function load(){
+    let list = null;
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(raw) list = JSON.parse(raw);
+    }catch(e){}
+    if(!Array.isArray(list) || !list.length){
+      save(SEED);
+      return SEED.slice();
+    }
+    // surface any new seed entries added to this file after first use
+    const ids = new Set(list.map(e => e.id));
+    const missing = SEED.filter(s => !ids.has(s.id));
+    if(missing.length){ list = missing.concat(list); save(list); }
+    return list;
+  }
+  function save(list){
+    localStorage.setItem(KEY, JSON.stringify(list || entries));
+  }
+  function esc(s){
+    return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function today(){
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function host(u){
+    try{ return new URL(u).hostname.replace('www.',''); }catch(e){ return u; }
+  }
+
+  const rack = document.getElementById('rack');
+  const sheetWrap = document.getElementById('sheetWrap');
+
+  function render(){
+    const list = entries.filter(e => filter==='all' || e.status===filter);
+    rack.hidden = view !== 'rack';
+    sheetWrap.hidden = view !== 'sheet';
+    document.querySelectorAll('#views .filter-btn').forEach(b => b.classList.toggle('on', b.dataset.v === view));
+    if(view === 'sheet'){ renderSheet(list); return; }
+    renderRack(list);
+  }
+
+  function renderSheet(list){
+    if(!list.length){
+      sheetWrap.innerHTML = '<div class="empty-rack">nothing on this shelf yet · press + new pitch</div>';
+      return;
+    }
+    sheetWrap.innerHTML = `
+      <table class="sheet">
+        <thead>
+          <tr>
+            <th>Company</th><th>Role</th><th>JD</th><th>Resume Page</th>
+            <th>DM</th><th>Status</th><th>Date</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list.map(e => `
+          <tr>
+            <td class="t-co"><i style="--hue:${esc(e.hue||'#b9a5c9')}"></i>${esc(e.company)}</td>
+            <td class="t-role">${esc(e.role)}</td>
+            <td class="t-link">${e.jd ? `<a href="${esc(e.jd)}" target="_blank" rel="noopener">${esc(host(e.jd))}</a>` : '<span class="t-date">·</span>'}</td>
+            <td class="t-link">${e.resume ? `<a href="${esc(e.resume)}" target="_blank" rel="noopener">${esc(host(e.resume))}</a>` : '<span class="t-date">·</span>'}</td>
+            <td class="t-dm">
+              ${e.dm ? `
+                <div class="snip">${esc(e.dm)}</div>
+                <div class="meta">
+                  <button class="copy-btn" data-act="copy" data-id="${esc(e.id)}">Copy</button>
+                  <span class="cnt${e.dm.length>300?' over':''}">${e.dm.length} chars</span>
+                </div>` : '<span class="t-date">·</span>'}
+            </td>
+            <td><button class="t-stamp s-${esc(e.status)}" data-act="stamp" data-id="${esc(e.id)}" title="Click to advance status">${STATUS_LABEL[e.status]||e.status}</button></td>
+            <td class="t-date">${esc(e.date||'')}</td>
+            <td class="t-actions">
+              <button class="link-btn" data-act="edit" data-id="${esc(e.id)}">Edit</button>
+              <button class="link-btn danger" data-act="delete" data-id="${esc(e.id)}">Remove</button>
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  function renderRack(list){
+    if(!list.length){
+      rack.innerHTML = '<div class="empty-rack">nothing on this shelf yet · press + new pitch</div>';
+      return;
+    }
+    rack.innerHTML = list.map((e,i) => `
+      <div class="slot" style="animation-delay:${.08*i + .2}s">
+        <div class="label" style="--hue:${esc(e.hue||'#b9a5c9')}">
+          <button class="stamp s-${esc(e.status)}" data-act="stamp" data-id="${esc(e.id)}" title="Click to advance status">${STATUS_LABEL[e.status]||e.status}</button>
+          <div class="head-row">
+            <h3 class="co-name">${esc(e.company)}</h3>
+            <span class="role-name">${esc(e.role)}</span>
+            <span class="entry-date">${esc(e.date||'')}</span>
+          </div>
+          <div class="links-row">
+            ${e.jd ? `<a href="${esc(e.jd)}" target="_blank" rel="noopener">JD · ${esc(host(e.jd))}</a>` : ''}
+            ${e.resume ? `<a href="${esc(e.resume)}" target="_blank" rel="noopener">Resume page</a>` : ''}
+          </div>
+          ${e.dm ? `
+          <div class="dm-block">
+            <div class="dm-head">
+              <span class="dm-tag">the message</span>
+              <button class="copy-btn" data-act="copy" data-id="${esc(e.id)}">Copy DM</button>
+            </div>
+            <p class="dm-text">${esc(e.dm)}</p>
+            <div class="dm-count">${e.dm.length} chars${e.dm.length>300 ? ' · over the 300 note cap' : ''}</div>
+          </div>` : ''}
+          ${e.notes ? `<div class="notes">${esc(e.notes)}</div>` : ''}
+          <div class="card-actions">
+            <button class="link-btn" data-act="edit" data-id="${esc(e.id)}">Edit</button>
+            <button class="link-btn danger" data-act="delete" data-id="${esc(e.id)}">Remove</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function onCardAction(ev){
+    const btn = ev.target.closest('[data-act]');
+    if(!btn) return;
+    const id = btn.dataset.id;
+    const entry = entries.find(e => e.id===id);
+    if(!entry) return;
+    const act = btn.dataset.act;
+
+    if(act==='copy'){
+      const orig = btn.textContent;
+      navigator.clipboard.writeText(entry.dm||'').then(()=>{
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(()=>{ btn.textContent=orig; btn.classList.remove('copied'); }, 1600);
+      });
+    }
+    if(act==='stamp'){
+      const idx = STATUS_ORDER.indexOf(entry.status);
+      entry.status = STATUS_ORDER[(idx+1) % STATUS_ORDER.length];
+      save(); render();
+    }
+    if(act==='edit') openEditor(entry);
+    if(act==='delete'){
+      if(confirm('Remove ' + entry.company + ' · ' + entry.role + ' from the rack?')){
+        entries = entries.filter(e => e.id!==id);
+        save(); render();
+      }
+    }
+  }
+  rack.addEventListener('click', onCardAction);
+  sheetWrap.addEventListener('click', onCardAction);
+
+  /* ---------- view toggle ---------- */
+  document.getElementById('views').addEventListener('click', ev => {
+    const b = ev.target.closest('.filter-btn');
+    if(!b) return;
+    view = b.dataset.v;
+    localStorage.setItem(KEY + ':view', view);
+    render();
+  });
+
+  /* ---------- filters ---------- */
+  document.getElementById('filters').addEventListener('click', ev => {
+    const b = ev.target.closest('.filter-btn');
+    if(!b) return;
+    document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    filter = b.dataset.f;
+    render();
+  });
+
+  /* ---------- editor ---------- */
+  const wrap = document.getElementById('editorWrap');
+  const form = document.getElementById('editor');
+  const f = id => document.getElementById(id);
+
+  function openEditor(entry){
+    editingId = entry ? entry.id : null;
+    document.getElementById('editorTitle').textContent = entry ? 'Edit · ' + entry.company : 'New pitch';
+    f('fCompany').value = entry ? entry.company : '';
+    f('fRole').value = entry ? entry.role : '';
+    f('fJd').value = entry ? (entry.jd||'') : '';
+    f('fResume').value = entry ? (entry.resume||'') : '';
+    f('fDm').value = entry ? (entry.dm||'') : '';
+    f('fStatus').value = entry ? entry.status : 'drafted';
+    f('fHue').value = entry ? (entry.hue||'#b9a5c9') : '#e8909e';
+    f('fNotes').value = entry ? (entry.notes||'') : '';
+    updateCount();
+    wrap.classList.add('open');
+    wrap.scrollIntoView({behavior:'smooth', block:'start'});
+    f('fCompany').focus();
+  }
+  function closeEditor(){
+    wrap.classList.remove('open');
+    editingId = null;
+    form.reset();
+  }
+
+  document.getElementById('addBtn').addEventListener('click', ()=> openEditor(null));
+  document.getElementById('cancelBtn').addEventListener('click', closeEditor);
+
+  const charLive = document.getElementById('charLive');
+  function updateCount(){
+    const n = f('fDm').value.length;
+    charLive.textContent = n + ' chars' + (n>300 ? ' · over the 300 note cap' : '');
+    charLive.classList.toggle('over', n>300);
+  }
+  f('fDm').addEventListener('input', updateCount);
+
+  form.addEventListener('submit', ev => {
+    ev.preventDefault();
+    const data = {
+      company: f('fCompany').value.trim(),
+      role: f('fRole').value.trim(),
+      jd: f('fJd').value.trim(),
+      resume: f('fResume').value.trim(),
+      dm: f('fDm').value,
+      status: f('fStatus').value,
+      hue: f('fHue').value,
+      notes: f('fNotes').value.trim()
+    };
+    if(!data.company) return;
+    if(editingId){
+      const e = entries.find(x => x.id===editingId);
+      Object.assign(e, data);
+    }else{
+      data.id = 'p' + Math.random().toString(36).slice(2,9);
+      data.date = today();
+      entries.unshift(data);
+    }
+    save(); closeEditor(); render();
+  });
+
+  /* ---------- export / import ---------- */
+  document.getElementById('exportBtn').addEventListener('click', ()=>{
+    const blob = new Blob([JSON.stringify(entries, null, 2)], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'outreach-rack-' + today() + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  const importFile = document.getElementById('importFile');
+  document.getElementById('importBtn').addEventListener('click', ()=> importFile.click());
+  importFile.addEventListener('change', ()=>{
+    const file = importFile.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        const data = JSON.parse(reader.result);
+        if(!Array.isArray(data)) throw new Error('not a list');
+        entries = data;
+        save(); render();
+      }catch(e){
+        alert('Could not read that file as a rack export.');
+      }
+      importFile.value = '';
+    };
+    reader.readAsText(file);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
