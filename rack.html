@@ -526,7 +526,7 @@
             <td class="t-co"><i style="--hue:${esc(e.hue||'#b9a5c9')}"></i>${esc(e.company)}</td>
             <td class="t-role">${esc(e.role)}</td>
             <td class="t-link">${e.jd ? `<a href="${esc(e.jd)}" target="_blank" rel="noopener">${esc(host(e.jd))}</a>` : '<span class="t-date">·</span>'}</td>
-            <td class="t-link">${e.resume ? `<a href="${esc(e.resume)}" target="_blank" rel="noopener">${esc(host(e.resume))}</a>` : '<span class="t-date">·</span>'}</td>
+            <td class="t-link">${e.resume ? `<a href="${esc(e.resume)}" target="_blank" rel="noopener">${esc(host(e.resume))}</a><div style="margin-top:6px"><button class="copy-btn" data-act="copylink" data-id="${esc(e.id)}">Copy link</button></div>` : '<span class="t-date">·</span>'}</td>
             <td class="t-dm">
               ${e.dm ? `
                 <div class="snip">${esc(e.dm)}</div>
@@ -563,6 +563,7 @@
           <div class="links-row">
             ${e.jd ? `<a href="${esc(e.jd)}" target="_blank" rel="noopener">JD · ${esc(host(e.jd))}</a>` : ''}
             ${e.resume ? `<a href="${esc(e.resume)}" target="_blank" rel="noopener">Resume page</a>` : ''}
+            ${e.resume ? `<button class="copy-btn" data-act="copylink" data-id="${esc(e.id)}">Copy link</button>` : ''}
           </div>
           ${e.dm ? `
           <div class="dm-block">
@@ -591,9 +592,10 @@
     if(!entry) return;
     const act = btn.dataset.act;
 
-    if(act==='copy'){
+    if(act==='copy' || act==='copylink'){
       const orig = btn.textContent;
-      navigator.clipboard.writeText(entry.dm||'').then(()=>{
+      const text = act==='copy' ? (entry.dm||'') : (entry.resume||'');
+      navigator.clipboard.writeText(text).then(()=>{
         btn.textContent = 'Copied';
         btn.classList.add('copied');
         setTimeout(()=>{ btn.textContent=orig; btn.classList.remove('copied'); }, 1600);
